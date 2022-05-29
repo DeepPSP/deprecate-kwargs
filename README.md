@@ -11,6 +11,7 @@ with warnings raised when old kwargs are passed.
 
 ## Usage Example
 ```python
+>>> from deprecate_kwargs import deprecate_kwargs
 >>> @deprecate_kwargs([["new_arg_1", "old_arg_1"], ["new_arg_2", "old_arg_2"]])
 >>> def some_func(old_arg_1: int, old_arg_2: int):
 >>>     return old_arg_1 + old_arg_2

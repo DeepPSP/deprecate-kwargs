@@ -5,7 +5,7 @@ from pathlib import Path
 
 import setuptools
 
-from torch_ecg import __version__
+from deprecate_kwargs import __version__
 
 cwd = Path(__file__).absolute().parent
 
