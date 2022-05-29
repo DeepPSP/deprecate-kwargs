@@ -66,11 +66,12 @@ def deprecate_kwargs(l_kwargs: Sequence[Sequence[str]]) -> Callable:
 
         func_params = list(inspect.signature(func).parameters.values())
         func_param_names = list(inspect.signature(func).parameters.keys())
+        wrapper.__doc__ = deepcopy(func.__doc__)
         for new_kw, old_kw in l_kwargs:
             idx = func_param_names.index(old_kw)
             func_params[idx] = func_params[idx].replace(name=new_kw)
-            if func.__doc__ is not None:
-                wrapper.__doc__ = func.__doc__.replace(old_kw, new_kw)
+            if wrapper.__doc__ is not None:
+                wrapper.__doc__ = wrapper.__doc__.replace(old_kw, new_kw)
         wrapper.__signature__ = inspect.Signature(parameters=func_params)
         return wrapper
 
