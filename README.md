@@ -2,7 +2,7 @@
 
 ![formatting](https://github.com/DeepPSP/deprecate-kwargs/actions/workflows/check-formatting.yml/badge.svg)
 ![pytest](https://github.com/DeepPSP/deprecate-kwargs/actions/workflows/run-pytest.yml/badge.svg)
-<!-- ![PyPI](https://img.shields.io/pypi/v/deprecate-kwargs?style=flat-square) -->
+![PyPI](https://img.shields.io/pypi/v/deprecate-kwargs?style=flat-square)
 
 A Tool for Depreating (Keyword) Arguments for Python Functions.
 
