@@ -1,0 +1,13 @@
+{
+    "title": "deprecate-kwargs: A Tool for Depreating (Keyword) Arguments for Python Functions",
+    "license": "MIT",
+    "creators": [
+        {
+            "name": "Hao WEN",
+            "affiliation": "LMIB and School of Mathematical Sciences, Beihang University, Beijing, China",
+            "orcid": "0000-0002-8856-0883"
+        }
+    ],
+    "access_right": "open",
+    "description": "A Tool for Depreating (Keyword) Arguments for Python Functions."
+}
