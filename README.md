@@ -10,6 +10,24 @@ A decorator is implemented to deprecate old kwargs in a function, with signature
 Instead of replacing the old kwargs with new ones, this decorator makes old and new kwargs both available,
 with warnings raised when old kwargs are passed.
 
+<!-- toc -->
+
+- [Installation](#installation)
+- [Usage Example](#usage-example)
+- [Benefits](#benefits)
+
+<!-- tocstop -->
+
+## Installation
+Run
+```bash
+python -m pip install deprecate-kwargs
+```
+or install the latest version in [GitHub](https://github.com/DeepPSP/deprecate-kwargs/) using
+```bash
+python -m pip install git+https://github.com/DeepPSP/deprecate-kwargs.git
+```
+
 ## Usage Example
 ```python
 >>> from deprecate_kwargs import deprecate_kwargs
@@ -28,6 +46,8 @@ UserWarning: key word argument "old_arg_2" is deprecated, use "new_arg_2" instea
 UserWarning: key word argument "old_kw" is deprecated, use "new_kw" instead
 90
 ```
+
+## Benefits
 
 `deprecate_kwargs` is quite useful when one wants to change the name of an argument (or keyword argument) of some function, while keeping old codes using this function still working. For example, say in version 0.1 of some package, there's a function
 ```python
