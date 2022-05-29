@@ -31,19 +31,21 @@ def deprecate_kwargs(l_kwargs: Sequence[Sequence[str]]) -> Callable:
 
     Examples
     --------
-    >>> @deprecate_kwargs([["new_arg_1", "old_arg_1"], ["new_arg_2", "old_arg_2"]])
-    >>> def some_func(old_arg_1: int, old_arg_2: int):
-    >>>     return old_arg_1 + old_arg_2
+    >>> from deprecate_kwargs import deprecate_kwargs
+    >>> @deprecate_kwargs([["new_arg_1", "old_arg_1"], ["new_arg_2", "old_arg_2"], ["new_kw", "old_kw"]])
+    >>> def some_func(old_arg_1: int, old_arg_2: int, old_kw: int = 3):
+    >>>     return (old_arg_1 + old_arg_2) * old_kw
     >>> some_func.__signature__
-    <Signature (new_arg_1:int, new_arg_2:int)>
-    >>> some_func(10, 20)
-    30
-    >>> some_func(new_arg_1=10, new_arg_2=20)
-    30
-    >>> some_func(old_arg_1=10, old_arg_2=20)
+    <Signature (new_arg_1: int, new_arg_2: int, new_kw: int = 3)>
+    >>> some_func(10, 20, 3)
+    90
+    >>> some_func(new_arg_1=10, new_arg_2=20, new_kw=3)
+    90
+    >>> some_func(old_arg_1=10, old_arg_2=20, old_kw=3)
     UserWarning: key word argument "old_arg_1" is deprecated, use "new_arg_1" instead
     UserWarning: key word argument "old_arg_2" is deprecated, use "new_arg_2" instead
-    30
+    UserWarning: key word argument "old_kw" is deprecated, use "new_kw" instead
+    90
 
     """
 
