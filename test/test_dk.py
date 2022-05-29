@@ -1,10 +1,11 @@
 """
 """
 
+import sys
+
 try:
     from deprecate_kwargs import deprecate_kwargs
 except ModuleNotFoundError:
-    import sys
     from pathlib import Path
 
     sys.path.insert(0, str(Path(__file__).absolute().parents[1]))
@@ -29,7 +30,10 @@ def some_func(old_arg_1: int, old_arg_2: int):
 def test_dk():
     """ """
 
-    assert str(some_func.__signature__) == "(new_arg_1:int, new_arg_2:int)"
+    if sys.version_info[:2] <= (3, 6):
+        assert str(some_func.__signature__) == "(new_arg_1:int, new_arg_2:int)"
+    else:
+        assert str(some_func.__signature__) == "(new_arg_1: int, new_arg_2: int)"
     assert some_func(10, 20) == 30
     assert (
         some_func.__doc__
