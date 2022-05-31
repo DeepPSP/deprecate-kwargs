@@ -27,7 +27,7 @@ setuptools.setup(
     author="DeepPSP",
     author_email="wenh06@gmail.com",
     license="MIT",
-    description="A Tool for Depreating (Keyword) Arguments for Python Functions",
+    description="A Tool for Deprecating (Keyword) Arguments for Backward Compatibility for Python Functions",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/DeepPSP/deprecate-kwargs",

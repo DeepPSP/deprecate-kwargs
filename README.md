@@ -4,7 +4,7 @@
 ![pytest](https://github.com/DeepPSP/deprecate-kwargs/actions/workflows/run-pytest.yml/badge.svg)
 ![PyPI](https://img.shields.io/pypi/v/deprecate-kwargs?style=flat-square)
 
-A Tool for Depreating (Keyword) Arguments for Python Functions.
+A Tool for Deprecating (Keyword) Arguments for Backward Compatibility for Python Functions.
 
 A decorator is implemented to deprecate old kwargs in a function, with signature and docstring modified accordingly.
 Instead of replacing the old kwargs with new ones, this decorator makes old and new kwargs both available,
@@ -49,7 +49,7 @@ UserWarning: key word argument "old_kw" is deprecated, use "new_kw" instead
 
 ## Benefits
 
-`deprecate_kwargs` is quite useful when one wants to change the name of an argument (or keyword argument) of some function, while keeping old codes using this function still working. For example, say in version 0.1 of some package, there's a function
+`deprecate_kwargs` is quite useful when one wants to change the name of an argument (or keyword argument) of some function, while keeping old codes using this function still working, hence is beneficial for backward compatibility. For example, say in version 0.1 of some package, there's a function
 ```python
 def some_deep_learning_model_trainer(learning_rate, ...):
     ...

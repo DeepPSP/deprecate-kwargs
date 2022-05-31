@@ -1,5 +1,5 @@
 {
-    "title": "deprecate-kwargs: A Tool for Depreating (Keyword) Arguments for Python Functions",
+    "title": "deprecate-kwargs: A Tool for Depreating (Keyword) Arguments for Backward Compatibility for Python Functions",
     "license": "MIT",
     "creators": [
         {
@@ -9,5 +9,5 @@
         }
     ],
     "access_right": "open",
-    "description": "A Tool for Depreating (Keyword) Arguments for Python Functions."
+    "description": "A Tool for Depreating (Keyword) Arguments for Backward Compatibility for Python Functions."
 }
