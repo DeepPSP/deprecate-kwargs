@@ -13,6 +13,9 @@ __all__ = [
 ]
 
 
+_WARNING_CATEGORY = PendingDeprecationWarning
+
+
 def deprecate_kwargs(l_kwargs: Sequence[Sequence[str]]) -> Callable:
     """
 
@@ -33,21 +36,21 @@ def deprecate_kwargs(l_kwargs: Sequence[Sequence[str]]) -> Callable:
     --------
     >>> from deprecate_kwargs import deprecate_kwargs
     >>> @deprecate_kwargs([["new_arg_1", "old_arg_1"], ["new_arg_2", "old_arg_2"], ["new_kw", "old_kw"]])
-    >>> def some_func(old_arg_1: int, old_arg_2: int, old_kw: int = 3):
+    >>> def some_func(old_arg_1: int, old_arg_2: int, *, old_kw: int = 3):
     >>>     return (old_arg_1 + old_arg_2) * old_kw
     >>> some_func.__signature__
-    <Signature (new_arg_1: int, new_arg_2: int, new_kw: int = 3)>
+    <Signature (new_arg_1: int, new_arg_2: int, *, new_kw: int = 3)>
     >>> some_func(10, 20, 3)
     90
     >>> some_func(new_arg_1=10, new_arg_2=20, new_kw=3)
     90
-    >>> some_func(old_arg_1=10, old_arg_2=20, old_kw=3)
-    UserWarning: key word argument "old_arg_1" is deprecated, use "new_arg_1" instead
-    UserWarning: key word argument "old_arg_2" is deprecated, use "new_arg_2" instead
-    UserWarning: key word argument "old_kw" is deprecated, use "new_kw" instead
+    >>> some_func(10, old_arg_2=20, old_kw=3)
+    PendingDeprecationWarning: (keyword) argument "old_arg_2" is deprecated, use "new_arg_2" instead
+    PendingDeprecationWarning: (keyword) argument "old_kw" is deprecated, use "new_kw" instead
     90
 
     """
+    warnings.simplefilter("always")
 
     def decorator(func: Callable) -> Callable:
         """ """
@@ -55,16 +58,17 @@ def deprecate_kwargs(l_kwargs: Sequence[Sequence[str]]) -> Callable:
         @wraps(func)
         def wrapper(*args, **kwargs) -> Callable:
             """ """
-            old_kwargs = deepcopy(kwargs)
+            input_kwargs = deepcopy(kwargs)
             for new_kw, old_kw in l_kwargs:
                 if new_kw in kwargs:
-                    old_kwargs.pop(new_kw, None)
-                    old_kwargs[old_kw] = kwargs[new_kw]
+                    input_kwargs.pop(new_kw, None)
+                    input_kwargs[old_kw] = kwargs[new_kw]
                 elif old_kw in kwargs:
                     warnings.warn(
-                        f"key word argument \042{old_kw}\042 is deprecated, use \042{new_kw}\042 instead"
+                        f"(keyword) argument \042{old_kw}\042 is deprecated, use \042{new_kw}\042 instead",
+                        _WARNING_CATEGORY,
                     )
-            return func(*args, **old_kwargs)
+            return func(*args, **input_kwargs)
 
         func_params = list(inspect.signature(func).parameters.values())
         func_param_names = list(inspect.signature(func).parameters.keys())
@@ -76,5 +80,7 @@ def deprecate_kwargs(l_kwargs: Sequence[Sequence[str]]) -> Callable:
                 wrapper.__doc__ = wrapper.__doc__.replace(old_kw, new_kw)
         wrapper.__signature__ = inspect.Signature(parameters=func_params)
         return wrapper
+
+    warnings.simplefilter("default")
 
     return decorator
