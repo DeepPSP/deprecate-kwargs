@@ -40,10 +40,9 @@ python -m pip install git+https://github.com/DeepPSP/deprecate-kwargs.git
 90
 >>> some_func(new_arg_1=10, new_arg_2=20, new_kw=3)
 90
->>> some_func(old_arg_1=10, old_arg_2=20, old_kw=3)
-UserWarning: key word argument "old_arg_1" is deprecated, use "new_arg_1" instead
-UserWarning: key word argument "old_arg_2" is deprecated, use "new_arg_2" instead
-UserWarning: key word argument "old_kw" is deprecated, use "new_kw" instead
+>>> some_func(10, old_arg_2=20, old_kw=3)
+PendingDeprecationWarning: (keyword) argument "old_arg_2" is deprecated, use "new_arg_2" instead
+PendingDeprecationWarning: (keyword) argument "old_kw" is deprecated, use "new_kw" instead
 90
 ```
 
