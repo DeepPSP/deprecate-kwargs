@@ -3,6 +3,8 @@
 ![formatting](https://github.com/DeepPSP/deprecate-kwargs/actions/workflows/check-formatting.yml/badge.svg)
 ![pytest](https://github.com/DeepPSP/deprecate-kwargs/actions/workflows/run-pytest.yml/badge.svg)
 ![PyPI](https://img.shields.io/pypi/v/deprecate-kwargs?style=flat-square)
+![downloads](https://img.shields.io/pypi/dm/deprecate-kwargs?style=flat-square)
+![license](https://img.shields.io/github/license/DeepPSP/deprecate-kwargs?style=flat-square)
 
 A Tool for Deprecating (Keyword) Arguments for Backward Compatibility for Python Functions.
 
