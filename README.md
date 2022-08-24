@@ -14,23 +14,29 @@ with warnings raised when old kwargs are passed.
 
 <!-- toc -->
 
-- [Installation](#installation)
-- [Usage Example](#usage-example)
-- [Benefits](#benefits)
+- [deprecate-kwargs](#deprecate-kwargs)
+  - [Installation](#installation)
+  - [Usage Example](#usage-example)
+  - [Benefits](#benefits)
 
 <!-- tocstop -->
 
 ## Installation
+
 Run
+
 ```bash
 python -m pip install deprecate-kwargs
 ```
+
 or install the latest version in [GitHub](https://github.com/DeepPSP/deprecate-kwargs/) using
+
 ```bash
 python -m pip install git+https://github.com/DeepPSP/deprecate-kwargs.git
 ```
 
 ## Usage Example
+
 ```python
 >>> from deprecate_kwargs import deprecate_kwargs
 >>> @deprecate_kwargs([["new_arg_1", "old_arg_1"], ["new_arg_2", "old_arg_2"], ["new_kw", "old_kw"]])
@@ -51,19 +57,25 @@ PendingDeprecationWarning: (keyword) argument "old_kw" is deprecated, use "new_k
 ## Benefits
 
 `deprecate_kwargs` is quite useful when one wants to change the name of an argument (or keyword argument) of some function, while keeping old codes using this function still working, hence is beneficial for backward compatibility. For example, say in version 0.1 of some package, there's a function
+
 ```python
 def some_deep_learning_model_trainer(learning_rate, ...):
     ...
 ```
+
 And in version 0.2, someone wants to change `learning_rate` to `lr`. If it was replaced directly via
+
 ```python
 def some_deep_learning_model_trainer(lr, ...):
     ...
 ```
+
 then old codes using this function bycalling `some_deep_learning_model_trainer(learning_rate=1e-3, ...)` would break. However, if the replacement is done using
+
 ```python
 @deprecate_kwargs([["lr", "learning_rate"]])
 def some_deep_learning_model_trainer(learning_rate, ...):
     ...
 ```
+
 then one can call this function using `some_deep_learning_model_trainer(lr=1e-3)`, as well as `some_deep_learning_model_trainer(learning_rate=1e-3, ...)` only with a warning raised. In this way, old codes are rescued from breaking.
