@@ -5,16 +5,8 @@ import sys
 
 import pytest
 
-try:
-    from deprecate_kwargs import deprecate_kwargs
-    from deprecate_kwargs._dk import _WARNING_CATEGORY
-except ModuleNotFoundError:
-    from pathlib import Path
-
-    sys.path.insert(0, str(Path(__file__).absolute().parents[1]))
-
-    from deprecate_kwargs import deprecate_kwargs
-    from deprecate_kwargs._dk import _WARNING_CATEGORY
+from deprecate_kwargs import deprecate_kwargs
+from deprecate_kwargs._dk import _WARNING_CATEGORY
 
 
 @deprecate_kwargs(
@@ -57,7 +49,3 @@ def test_dk():
     )
 
     pytest.warns(_WARNING_CATEGORY, some_func, old_arg_1=10, old_arg_2=20, old_kw=3)
-
-
-if __name__ == "__main__":
-    test_dk()
