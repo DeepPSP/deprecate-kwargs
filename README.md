@@ -2,6 +2,7 @@
 
 ![formatting](https://github.com/DeepPSP/deprecate-kwargs/actions/workflows/check-formatting.yml/badge.svg)
 ![pytest](https://github.com/DeepPSP/deprecate-kwargs/actions/workflows/run-pytest.yml/badge.svg)
+[![codecov](https://codecov.io/gh/DeepPSP/deprecate-kwargs/branch/master/graph/badge.svg?token=6J4Q7SBF7M)](https://codecov.io/gh/DeepPSP/deprecate-kwargs)
 ![PyPI](https://img.shields.io/pypi/v/deprecate-kwargs?style=flat-square)
 ![downloads](https://img.shields.io/pypi/dm/deprecate-kwargs?style=flat-square)
 ![license](https://img.shields.io/github/license/DeepPSP/deprecate-kwargs?style=flat-square)
