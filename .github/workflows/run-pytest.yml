@@ -33,6 +33,6 @@ jobs:
         python -m pip freeze
     - name: Run test with pytest and collect coverage
       run: |
-        pytest --cov -v test
+        pytest --cov=deprecate_kwargs -v test
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
