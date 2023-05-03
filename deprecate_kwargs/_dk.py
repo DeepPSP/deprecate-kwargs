@@ -16,21 +16,26 @@ __all__ = [
 _WARNING_CATEGORY = PendingDeprecationWarning
 
 
-def deprecate_kwargs(l_kwargs: Sequence[Sequence[str]]) -> Callable:
-    """
-
-    Decorator to deprecate old kwargs in a function,
+def deprecate_kwargs(
+    l_kwargs: Sequence[Sequence[str]], update_docstring: bool = True
+) -> Callable:
+    """Decorator to deprecate old kwargs in a function,
     with signature and docstring modified accordingly.
+
     Instead of replacing the old kwargs with new ones,
     this decorator makes old and new kwargs both available,
     with warnings raised when old kwargs are passed.
 
     Parameters
     ----------
-    l_kwargs: Sequence[Sequence[str]],
-        a list of kwargs to be deprecated,
-        each element is a sequence of length 2,
-        of the form (new_kwarg, old_kwarg)
+    l_kwargs : Sequence[Sequence[str]],
+        A list of kwargs to be deprecated.
+        Each element is a sequence of length 2,
+        of the form ``(new_kwarg, old_kwarg)``.
+    update_docstring : bool, default True
+        Whether to update the docstring of the decorated function.
+        The update is done by replacing all occurrences of old kwargs
+        with new kwargs in the docstring.
 
     Examples
     --------
@@ -49,15 +54,20 @@ def deprecate_kwargs(l_kwargs: Sequence[Sequence[str]]) -> Callable:
     PendingDeprecationWarning: (keyword) argument "old_kw" is deprecated, use "new_kw" instead
     90
 
+    Warning
+    -------
+    If the replaced (old) argument has a simple name, e.g. ``a``,
+    then `update_docstring` should better be set to ``False``,
+    and the new docstring should be updated manually, or using
+    finer-grained methods.
+
     """
     warnings.simplefilter("always")
 
     def decorator(func: Callable) -> Callable:
-        """ """
-
         @wraps(func)
         def wrapper(*args, **kwargs) -> Callable:
-            """ """
+
             input_kwargs = deepcopy(kwargs)
             for new_kw, old_kw in l_kwargs:
                 if new_kw in kwargs:
@@ -76,7 +86,7 @@ def deprecate_kwargs(l_kwargs: Sequence[Sequence[str]]) -> Callable:
         for new_kw, old_kw in l_kwargs:
             idx = func_param_names.index(old_kw)
             func_params[idx] = func_params[idx].replace(name=new_kw)
-            if wrapper.__doc__ is not None:
+            if update_docstring and wrapper.__doc__ is not None:
                 wrapper.__doc__ = wrapper.__doc__.replace(old_kw, new_kw)
         wrapper.__signature__ = inspect.Signature(parameters=func_params)
         return wrapper
