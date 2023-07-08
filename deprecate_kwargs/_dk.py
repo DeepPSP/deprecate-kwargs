@@ -28,7 +28,7 @@ def deprecate_kwargs(
 
     Parameters
     ----------
-    l_kwargs : Sequence[Sequence[str]],
+    l_kwargs : Sequence[Sequence[str]]
         A list of kwargs to be deprecated.
         Each element is a sequence of length 2,
         of the form ``(new_kwarg, old_kwarg)``.
