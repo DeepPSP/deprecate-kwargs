@@ -1,11 +1,11 @@
 # [deprecate-kwargs](https://github.com/DeepPSP/deprecate-kwargs/)
 
-![formatting](https://github.com/DeepPSP/deprecate-kwargs/actions/workflows/check-formatting.yml/badge.svg)
-![pytest](https://github.com/DeepPSP/deprecate-kwargs/actions/workflows/run-pytest.yml/badge.svg)
+[![formatting](https://github.com/DeepPSP/deprecate-kwargs/actions/workflows/check-formatting.yml/badge.svg)](https://github.com/DeepPSP/deprecate-kwargs/actions/workflows/check-formatting.yml)
+[![pytest](https://github.com/DeepPSP/deprecate-kwargs/actions/workflows/run-pytest.yml/badge.svg)](https://github.com/DeepPSP/deprecate-kwargs/actions/workflows/run-pytest.yml)
 [![codecov](https://codecov.io/gh/DeepPSP/deprecate-kwargs/branch/master/graph/badge.svg?token=6J4Q7SBF7M)](https://codecov.io/gh/DeepPSP/deprecate-kwargs)
-![PyPI](https://img.shields.io/pypi/v/deprecate-kwargs?style=flat-square)
-![downloads](https://img.shields.io/pypi/dm/deprecate-kwargs?style=flat-square)
-![license](https://img.shields.io/github/license/DeepPSP/deprecate-kwargs?style=flat-square)
+[![PyPI](https://img.shields.io/pypi/v/deprecate-kwargs?style=flat-square)](https://pypi.org/project/deprecate-kwargs/)
+[![downloads](https://img.shields.io/pypi/dm/deprecate-kwargs?style=flat-square)](https://pypistats.org/packages/deprecate-kwargs)
+[![license](https://img.shields.io/github/license/DeepPSP/deprecate-kwargs?style=flat-square)](LICENSE)
 
 A Tool for Deprecating (Keyword) Arguments for Backward Compatibility for Python Functions.
 
