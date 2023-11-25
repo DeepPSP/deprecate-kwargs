@@ -6,6 +6,8 @@
 [![PyPI](https://img.shields.io/pypi/v/deprecate-kwargs?style=flat-square)](https://pypi.org/project/deprecate-kwargs/)
 [![downloads](https://img.shields.io/pypi/dm/deprecate-kwargs?style=flat-square)](https://pypistats.org/packages/deprecate-kwargs)
 [![license](https://img.shields.io/github/license/DeepPSP/deprecate-kwargs?style=flat-square)](LICENSE)
+![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/DeepPSP/deprecate-kwargs)
+![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/DeepPSP/deprecate-kwargs/latest)
 
 A Tool for Deprecating (Keyword) Arguments for Backward Compatibility for Python Functions.
 
