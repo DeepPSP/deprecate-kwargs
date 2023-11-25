@@ -9,9 +9,7 @@ from deprecate_kwargs import deprecate_kwargs
 from deprecate_kwargs._dk import _WARNING_CATEGORY
 
 
-@deprecate_kwargs(
-    [["new_arg_1", "old_arg_1"], ["new_arg_2", "old_arg_2"], ["new_kw", "old_kw"]]
-)
+@deprecate_kwargs([["new_arg_1", "old_arg_1"], ["new_arg_2", "old_arg_2"], ["new_kw", "old_kw"]])
 def some_func(old_arg_1: int, old_arg_2: int, *, old_kw: int = 3):
     """
     Parameters
@@ -31,15 +29,9 @@ def test_dk():
     """ """
 
     if sys.version_info[:2] <= (3, 6):
-        assert (
-            str(some_func.__signature__)
-            == "(new_arg_1:int, new_arg_2:int, *, new_kw:int=3)"
-        )
+        assert str(some_func.__signature__) == "(new_arg_1:int, new_arg_2:int, *, new_kw:int=3)"
     else:
-        assert (
-            str(some_func.__signature__)
-            == "(new_arg_1: int, new_arg_2: int, *, new_kw: int = 3)"
-        )
+        assert str(some_func.__signature__) == "(new_arg_1: int, new_arg_2: int, *, new_kw: int = 3)"
     assert some_func(10, 20, new_kw=4) == 120
     assert some_func.__doc__ == (
         "\n    Parameters\n    ----------"

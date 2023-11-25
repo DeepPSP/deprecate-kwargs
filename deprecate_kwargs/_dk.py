@@ -5,8 +5,7 @@ import inspect
 import warnings
 from copy import deepcopy
 from functools import wraps
-from typing import Sequence, Callable
-
+from typing import Callable, Sequence
 
 __all__ = [
     "deprecate_kwargs",
@@ -16,9 +15,7 @@ __all__ = [
 _WARNING_CATEGORY = PendingDeprecationWarning
 
 
-def deprecate_kwargs(
-    l_kwargs: Sequence[Sequence[str]], update_docstring: bool = True
-) -> Callable:
+def deprecate_kwargs(l_kwargs: Sequence[Sequence[str]], update_docstring: bool = True) -> Callable:
     """Decorator to deprecate old kwargs in a function,
     with signature and docstring modified accordingly.
 
