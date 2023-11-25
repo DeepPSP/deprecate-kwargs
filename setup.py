@@ -13,8 +13,7 @@ long_description = (cwd / "README.md").read_text(encoding="utf-8")
 
 extras = {}
 extras["test"] = [
-    "black==22.3.0",
-    "flake8",
+    "pre-commit",
     "pytest",
     "pytest-xdist",
     "pytest-cov",
@@ -43,7 +42,6 @@ setuptools.setup(
     classifiers=[
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
@@ -52,7 +50,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     # install_requires=open("requirements.txt").readlines(),
     extras_require=extras,
 )
