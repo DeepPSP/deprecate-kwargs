@@ -64,7 +64,6 @@ def deprecate_kwargs(l_kwargs: Sequence[Sequence[str]], update_docstring: bool =
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args, **kwargs) -> Callable:
-
             input_kwargs = deepcopy(kwargs)
             for new_kw, old_kw in l_kwargs:
                 if new_kw in kwargs:
