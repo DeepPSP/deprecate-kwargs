@@ -9,13 +9,16 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  PYTHON_PRIMARY_VERSION: '3.10'
+
 jobs:
   build:
 
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
     - uses: actions/checkout@v4
@@ -35,7 +38,7 @@ jobs:
       run: |
         pytest --cov=deprecate_kwargs -v test
     - name: Upload coverage to Codecov
-      if: matrix.python-version == '3.8'
+      if: matrix.python-version == ${{ env.PYTHON_PRIMARY_VERSION }}
       uses: codecov/codecov-action@v4
       with:
         fail_ci_if_error: true # optional (default = false)
