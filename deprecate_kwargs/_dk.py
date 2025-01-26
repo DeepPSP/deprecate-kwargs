@@ -113,6 +113,7 @@ def deprecate_kwargs(
                         # the first line of the next kwarg
                         if not any(line.strip().startswith(kw) for kw in func_param_names):
                             # we meet the "Returns" section
+                            # or the end of the docstring
                             idx -= 1
                         break
                 # insert the versionchanged directive above the next kwarg
@@ -143,8 +144,9 @@ def _find_indent(docstring: Optional[str] = None) -> Tuple[int, int]:
     """
     if docstring is None:
         return 0, 4
-    # ignore the first line
-    docstring = docstring.split("\n", 1)[-1]
+    # ignore the title line if docstring have multiple lines
+    if "\n" in docstring:
+        docstring = docstring.split("\n", 1)[-1]
     # ignore empty lines
     lines = filter(None, docstring.split("\n"))
     indents = sorted(set([len(line) - len(line.lstrip()) for line in lines if line.strip()]))
