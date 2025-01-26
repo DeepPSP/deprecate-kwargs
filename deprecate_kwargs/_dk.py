@@ -35,6 +35,8 @@ def deprecate_kwargs(
         Whether to update the docstring of the decorated function.
         The update is done by replacing all occurrences of old kwargs
         with new kwargs in the docstring.
+
+        .. versionadded:: 0.0.3
     version : Optional[str], default None
         The version when the kwargs are deprecated.
         If provided, a ``versionchanged`` directive will be added
