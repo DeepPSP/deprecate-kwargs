@@ -8,20 +8,11 @@ Changelog <https://keepachangelog.com/en/1.1.0/>`__, and this project
 adheres to `Semantic
 Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
-`Unreleased <https://github.com/DeepPSP/deprecate-kwargs/compare/v0.0.4...HEAD>`__
+`Unreleased <https://github.com/DeepPSP/deprecate-kwargs/compare/v0.1.0...HEAD>`__
 -----------------------------------------------------------------------------------
 
 Added
 ~~~~~
-
-- ``version`` argument to the `deprecate_kwargs` function. This argument
-  can be used to specify the version number from which the keyword argument
-  is deprecated. This version number will be used to add a versionchanged
-  directive in the docstring of the decorated function if the `update_docstring`
-  argument is set to True and the docstring of the decorated function is
-  a Sphinx-style docstring.
-- Changelog file (this file) to the package to keep track of the changes
-  in the package.
 
 Changed
 ~~~~~~~
@@ -37,6 +28,21 @@ Fixed
 
 Security
 ~~~~~~~~
+
+`0.1.0 <https://github.com/DeepPSP/deprecate-kwargs/compare/v0.0.4...v0.1.0>`__ - 2025-01-27
+---------------------------------------------------------------------------------------------
+
+Added
+~~~~~
+
+- ``version`` argument to the `deprecate_kwargs` function. This argument
+  can be used to specify the version number from which the keyword argument
+  is deprecated. This version number will be used to add a versionchanged
+  directive in the docstring of the decorated function if the `update_docstring`
+  argument is set to True and the docstring of the decorated function is
+  a Sphinx-style docstring.
+- Changelog file (this file) to the package to keep track of the changes
+  in the package.
 
 `0.0.4 <https://github.com/DeepPSP/deprecate-kwargs/compare/v0.0.3...v0.0.4>`__ - 2023-11-26
 ---------------------------------------------------------------------------------------------
