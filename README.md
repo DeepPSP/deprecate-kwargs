@@ -43,9 +43,11 @@ python -m pip install git+https://github.com/DeepPSP/deprecate-kwargs.git
 
 ```python
 >>> from deprecate_kwargs import deprecate_kwargs
->>> @deprecate_kwargs([["new_arg_1", "old_arg_1"], ["new_arg_2", "old_arg_2"], ["new_kw", "old_kw"]])
->>> def some_func(old_arg_1: int, old_arg_2: int, old_kw: int = 3):
->>>     return (old_arg_1 + old_arg_2) * old_kw
+>>> @deprecate_kwargs([["kw_new_again", "new_kw"]], version="0.3.0")
+... @deprecate_kwargs([["new_arg_1", "old_arg_1"], ["new_arg_2", "old_arg_2"], ["new_kw", "old_kw"]], version="0.1.0")
+... def some_func(old_arg_1: int, old_arg_2: int, old_kw: int = 3):
+...     return (old_arg_1 + old_arg_2) * old_kw
+...
 >>> some_func.__signature__
 <Signature (new_arg_1: int, new_arg_2: int, new_kw: int = 3)>
 >>> some_func(10, 20, 3)
@@ -54,7 +56,9 @@ python -m pip install git+https://github.com/DeepPSP/deprecate-kwargs.git
 90
 >>> some_func(10, old_arg_2=20, old_kw=3)
 PendingDeprecationWarning: (keyword) argument "old_arg_2" is deprecated, use "new_arg_2" instead
+  warnings.warn(
 PendingDeprecationWarning: (keyword) argument "old_kw" is deprecated, use "new_kw" instead
+  warnings.warn(
 90
 ```
 
@@ -77,7 +81,7 @@ def some_deep_learning_model_trainer(lr, ...):
 then old codes using this function bycalling `some_deep_learning_model_trainer(learning_rate=1e-3, ...)` would break. However, if the replacement is done using
 
 ```python
-@deprecate_kwargs([["lr", "learning_rate"]])
+@deprecate_kwargs([["lr", "learning_rate"]], version="0.2")
 def some_deep_learning_model_trainer(learning_rate, ...):
     ...
 ```
