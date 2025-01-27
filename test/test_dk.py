@@ -31,6 +31,7 @@ def some_func(old_arg_1: int, old_arg_2: int, *, old_kw: int = 3) -> int:
     return (old_arg_1 + old_arg_2) * old_kw
 
 
+@deprecate_kwargs([["kw_new_again", "new_kw"]], version="0.3.0")
 @deprecate_kwargs([["new_arg_1", "old_arg_1"], ["new_arg_2", "old_arg_2"], ["new_kw", "old_kw"]], version="0.1.0")
 def another_func(old_arg_1: int, old_arg_2: int, *, old_kw: int = 3) -> None:
     """
@@ -98,8 +99,9 @@ def test_dk():
         "\n\n        .. versionchanged:: 0.1.0"
         "\n    new_arg_2 : int\n        Argument 2."
         "\n\n        .. versionchanged:: 0.1.0"
-        "\n    new_kw : int, default 3\n        Keyword argument."
+        "\n    kw_new_again : int, default 3\n        Keyword argument."
         "\n\n        .. versionchanged:: 0.1.0"
+        "\n\n        .. versionchanged:: 0.3.0"
         "\n\n    "
     )
 
