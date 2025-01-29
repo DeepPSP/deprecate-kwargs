@@ -20,6 +20,9 @@ Changed
 Deprecated
 ~~~~~~~~~~
 
+- Script ``setup.py`` is deprecated. The package building system is
+  switched to ``hatch``.
+
 Removed
 ~~~~~~~
 

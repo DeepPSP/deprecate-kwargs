@@ -21,7 +21,7 @@ with warnings raised when old kwargs are passed.
   - [Installation](#installation)
   - [Usage Example](#usage-example)
   - [Benefits](#benefits)
-  - [Changelog](CHANGELOG.rst)
+  - [Change Log](CHANGELOG.rst)
 
 <!-- tocstop -->
 
