@@ -4,7 +4,7 @@ import inspect
 import warnings
 from copy import deepcopy
 from functools import wraps
-from typing import Callable, Optional, Sequence, Tuple
+from typing import Callable, Optional, Sequence
 
 __all__ = [
     "deprecate_kwargs",
@@ -77,7 +77,7 @@ def deprecate_kwargs(
 
     def decorator(func: Callable) -> Callable:
         @wraps(func)
-        def wrapper(*args, **kwargs) -> Callable:
+        def wrapper(*args, **kwargs):
             input_kwargs = deepcopy(kwargs)
             for new_kw, old_kw in l_kwargs:
                 if new_kw in kwargs:
@@ -85,77 +85,76 @@ def deprecate_kwargs(
                     input_kwargs[old_kw] = kwargs[new_kw]
                 elif old_kw in kwargs:
                     warnings.warn(
-                        f"(keyword) argument \042{old_kw}\042 is deprecated, use \042{new_kw}\042 instead",
+                        f'(keyword) argument "{old_kw}" is deprecated, use "{new_kw}" instead',
                         _WARNING_CATEGORY,
                     )
             return func(*args, **input_kwargs)
 
         func_params = list(inspect.signature(func).parameters.values())
         func_param_names = list(inspect.signature(func).parameters.keys())
-        wrapper.__doc__ = deepcopy(func.__doc__)
-        doc_indent, unit_indent = _find_indent(wrapper.__doc__)
+
+        # Normalize docstring (dedented) as the canonical form to edit
+        orig_doc = func.__doc__
+        doc = inspect.cleandoc(orig_doc) if orig_doc is not None else None
+
         for new_kw, old_kw in l_kwargs:
+            # rename parameters in signature
             idx = func_param_names.index(old_kw)
             func_params[idx] = func_params[idx].replace(name=new_kw)
             func_param_names[idx] = new_kw
-            if update_docstring and wrapper.__doc__ is not None:
-                wrapper.__doc__ = wrapper.__doc__.replace(old_kw, new_kw)
-        if version is not None and update_docstring and wrapper.__doc__ is not None:
-            # insert versionchanged directive for each deprecated kwarg
-            versionchanged = f"\n{' ' * (doc_indent + unit_indent)}.. versionchanged:: {version}"
+            # replace occurrences in dedented docstring
+            if update_docstring and doc is not None:
+                doc = doc.replace(old_kw, new_kw)
+
+        if version is not None and update_docstring and doc is not None:
             for new_kw, _ in l_kwargs:
-                lines = wrapper.__doc__.split("\n")
-                flag = False
-                for idx, line in enumerate(lines):
-                    if len(line) - len(line.lstrip()) == doc_indent and line.strip().startswith(new_kw):
-                        # the first line of the new kwarg
-                        flag = True
-                    elif flag and len(line) - len(line.lstrip()) == doc_indent:
-                        # the first line of the next kwarg
-                        if not any(line.strip().startswith(kw) for kw in func_param_names):
-                            # we meet the "Returns" section
-                            # or the end of the docstring
-                            idx -= 1
+                lines = doc.splitlines()
+                n = len(lines)
+                start_idx = None
+                # find the first top-level line that startswith the parameter name
+                for i, line in enumerate(lines):
+                    if line.strip().startswith(new_kw) and (len(line) - len(line.lstrip()) == 0):
+                        start_idx = i
                         break
-                # insert the versionchanged directive above the next kwarg
-                wrapper.__doc__ = "\n".join(lines[:idx] + [versionchanged] + lines[idx:])
+                if start_idx is None:
+                    # fallback: couldn't find the param name — skip
+                    continue
+                # find j: the index of next top-level line after the param block
+                j = start_idx + 1
+                while j < n:
+                    line = lines[j]
+                    indent = len(line) - len(line.lstrip())
+                    if indent == 0 and line.strip() != "":
+                        break
+                    j += 1
+
+                directive = "    .. versionchanged:: " + version
+                insert_block = []
+                if j > 0 and lines[j - 1].strip() != "":
+                    insert_block.append("")
+                insert_block.append(directive)
+                # Determine whether we need a trailing blank line after the directive
+                need_trailing_blank = True
+                if j < len(lines):
+                    next_line = lines[j].strip()
+                    parts = next_line.split(":")[0].strip().lstrip("*").split()
+                    candidate_name = parts[0] if parts else ""
+
+                    if candidate_name in func_param_names:
+                        need_trailing_blank = False
+                else:
+                    need_trailing_blank = False
+
+                if need_trailing_blank and j < len(lines):
+                    insert_block.append("")
+
+                lines = lines[:j] + insert_block + lines[j:]
+                doc = "\n".join(lines)
+
+        wrapper.__doc__ = doc
         wrapper.__signature__ = inspect.Signature(parameters=func_params)
         return wrapper
 
     warnings.simplefilter("default")
 
     return decorator
-
-
-def _find_indent(docstring: Optional[str] = None) -> Tuple[int, int]:
-    """Find the minimum indent of the docstring,
-    and the unit indent of the docstring (typically 4).
-
-    Parameters
-    ----------
-    docstring : str, optional
-        The docstring to be processed.
-
-    Returns
-    -------
-    Tuple[int, int]
-        The minimum indent of the docstring,
-        and the unit indent of the docstring (typically 4).
-
-    """
-    if docstring is None:
-        return 0, 4
-    # ignore the title line if docstring have multiple lines
-    if "\n" in docstring:
-        docstring = docstring.split("\n", 1)[-1]
-    # ignore empty lines
-    lines = filter(None, docstring.split("\n"))
-    indents = sorted(set([len(line) - len(line.lstrip()) for line in lines if line.strip()]))
-    doc_indent = indents[0] if indents else 0
-    if len(indents) > 1:
-        unit_indent = min([indents[i] - indents[i - 1] for i in range(1, len(indents))])
-    elif doc_indent > 0:
-        unit_indent = doc_indent
-    else:
-        unit_indent = 4
-    return doc_indent, unit_indent
