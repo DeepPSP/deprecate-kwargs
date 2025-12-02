@@ -1,12 +1,12 @@
-"""
-"""
+""" """
 
+import inspect
 import sys
 
 import pytest
 
 from deprecate_kwargs import deprecate_kwargs
-from deprecate_kwargs._dk import _WARNING_CATEGORY, _find_indent
+from deprecate_kwargs._dk import _WARNING_CATEGORY
 
 
 @deprecate_kwargs([["new_arg_1", "old_arg_1"], ["new_arg_2", "old_arg_2"], ["new_kw", "old_kw"]], version="0.1.0")
@@ -73,58 +73,75 @@ def test_dk():
     """Test the deprecate_kwargs decorator."""
 
     if sys.version_info[:2] <= (3, 6):
-        assert str(some_func.__signature__) == "(new_arg_1:int, new_arg_2:int, *, new_kw:int=3)"
+        assert str(some_func.__signature__) == "(new_arg_1:int, new_arg_2:int, *, new_kw:int=3)"  # type: ignore
     else:
-        assert str(some_func.__signature__) == "(new_arg_1: int, new_arg_2: int, *, new_kw: int = 3)"
-    assert some_func(10, 20, new_kw=4) == 120
-    assert some_func.__doc__ == (
+        assert str(some_func.__signature__) == "(new_arg_1: int, new_arg_2: int, *, new_kw: int = 3)"  # type: ignore
+    assert some_func(10, 20, new_kw=4) == 120  # type: ignore
+    expected_some_doc = (
         "Let's use this function to test the decorator."
-        "\n\n    Parameters\n    ----------"
-        "\n    new_arg_1 : int\n        Argument 1."
-        "\n\n        .. versionchanged:: 0.1.0"
-        "\n    new_arg_2 : int\n        Argument 2."
-        "\n\n        .. versionchanged:: 0.1.0"
-        "\n    new_kw : int, default 3\n        Keyword argument."
-        "\n\n        .. versionchanged:: 0.1.0"
-        "\n\n    Returns\n    -------\n    int\n        The result of the calculation."
-        "\n\n    "
+        "\n\nParameters\n----------"
+        "\nnew_arg_1 : int\n    Argument 1."
+        "\n\n    .. versionchanged:: 0.1.0"
+        "\nnew_arg_2 : int\n    Argument 2."
+        "\n\n    .. versionchanged:: 0.1.0"
+        "\nnew_kw : int, default 3\n    Keyword argument."
+        "\n\n    .. versionchanged:: 0.1.0"
+        "\n\nReturns\n-------\nint\n    The result of the calculation."
+        "\n"
     )
+    assert inspect.cleandoc(some_func.__doc__) == inspect.cleandoc(expected_some_doc)  # type: ignore
 
     pytest.warns(_WARNING_CATEGORY, some_func, old_arg_1=10, old_arg_2=20, old_kw=3)
 
-    assert another_func.__doc__ == (
-        "\n    Let's use another function to test the decorator."
-        "\n\n    Parameters\n    ----------"
-        "\n    new_arg_1 : int\n        Argument 1."
-        "\n\n        .. versionchanged:: 0.1.0"
-        "\n    new_arg_2 : int\n        Argument 2."
-        "\n\n        .. versionchanged:: 0.1.0"
-        "\n    kw_new_again : int, default 3\n        Keyword argument."
-        "\n\n        .. versionchanged:: 0.1.0"
-        "\n\n        .. versionchanged:: 0.3.0"
-        "\n\n    "
+    expected_another_doc = (
+        "Let's use another function to test the decorator."
+        "\n\nParameters\n----------"
+        "\nnew_arg_1 : int\n    Argument 1."
+        "\n\n    .. versionchanged:: 0.1.0"
+        "\nnew_arg_2 : int\n    Argument 2."
+        "\n\n    .. versionchanged:: 0.1.0"
+        "\nkw_new_again : int, default 3\n    Keyword argument."
+        "\n\n    .. versionchanged:: 0.1.0"
+        "\n\n    .. versionchanged:: 0.3.0"
+        "\n"
     )
+    assert inspect.cleandoc(another_func.__doc__) == inspect.cleandoc(expected_another_doc)  # type: ignore
 
-    assert yet_another_func.__doc__ == (
+    expected_yet_doc = (
         "Let's try another function."
-        "\n\n    This time we don't specify a version."
-        "\n\n    Parameters\n    ----------"
-        "\n    new_arg_1 : int\n        Argument 1."
-        "\n    new_arg_2 : int\n        Argument 2."
-        "\n    new_kw : int, default 3\n        Keyword argument."
-        "\n\n    "
+        "\n\nThis time we don't specify a version."
+        "\n\nParameters\n----------"
+        "\nnew_arg_1 : int\n    Argument 1."
+        "\nnew_arg_2 : int\n    Argument 2."
+        "\nnew_kw : int, default 3\n    Keyword argument."
+        "\n"
     )
+    assert inspect.cleandoc(yet_another_func.__doc__) == inspect.cleandoc(expected_yet_doc)  # type: ignore
 
 
-def test_find_indent():
-    """Test the _find_indent function."""
+def test_dk_missing_param_in_docstring():
+    """
+    Test the case where the argument to be deprecated exists in the signature
+    but is NOT mentioned in the docstring.
+    """
 
-    assert _find_indent(None) == (0, 4)
-    assert _find_indent("") == (0, 4)
-    assert _find_indent("    ") == (0, 4)
-    assert _find_indent("        ") == (0, 4)
-    assert _find_indent("  a") == (2, 2)
-    assert _find_indent("   a") == (3, 3)
-    assert _find_indent("   a\n") == (0, 4)
-    assert _find_indent(some_func.__doc__) == (4, 4)
-    assert _find_indent(another_func.__doc__) == (4, 4)
+    @deprecate_kwargs([["new_missing", "old_missing"]], version="0.1.0")
+    def func_undocumented_param(old_missing: int):
+        """
+        This function has a parameter but does not document it.
+
+        Returns
+        -------
+        int
+            Something.
+        """
+        return old_missing
+
+    sig = str(inspect.signature(func_undocumented_param))
+    assert "new_missing" in sig
+    assert "old_missing" not in sig
+
+    doc = func_undocumented_param.__doc__
+    assert "versionchanged" not in doc  # type: ignore
+
+    assert func_undocumented_param(new_missing=5) == 5  # type: ignore

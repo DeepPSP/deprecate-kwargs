@@ -38,12 +38,9 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel build
     - name: Install Hatch
       uses: pypa/hatch@install
-    - name: List installed Python packages
-      run: |
-        python -m pip list
     - name: Build
       run: |
-        python setup.py sdist bdist_wheel
+        python -m build
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
