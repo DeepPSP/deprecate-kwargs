@@ -8,7 +8,7 @@ Changelog <https://keepachangelog.com/en/1.1.0/>`__, and this project
 adheres to `Semantic
 Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
-`Unreleased <https://github.com/DeepPSP/deprecate-kwargs/compare/v0.1.0...HEAD>`__
+`Unreleased <https://github.com/DeepPSP/deprecate-kwargs/compare/v0.1.1...HEAD>`__
 -----------------------------------------------------------------------------------
 
 Added
@@ -20,9 +20,6 @@ Changed
 Deprecated
 ~~~~~~~~~~
 
-- Script ``setup.py`` is deprecated. The package building system is
-  switched to ``hatch``.
-
 Removed
 ~~~~~~~
 
@@ -31,6 +28,23 @@ Fixed
 
 Security
 ~~~~~~~~
+
+`0.1.1 <https://github.com/DeepPSP/deprecate-kwargs/compare/v0.1.0...v0.1.1>`__ - 2025-12-03
+---------------------------------------------------------------------------------------------
+
+Removed
+~~~~~~~
+
+- Removed ``setup.py``. The package building system is switched to ``hatch``
+  using ``pyproject.toml`` only.
+
+Fixed
+~~~~~
+
+- Fix compatibility issues with Python 3.13, which introduced changes to
+  the handling of docstrings. See `the release notes of Python 3.13
+  <https://docs.python.org/3/whatsnew/3.13.html#other-language-changes>`__
+  for more details.
 
 `0.1.0 <https://github.com/DeepPSP/deprecate-kwargs/compare/v0.0.4...v0.1.0>`__ - 2025-01-27
 ---------------------------------------------------------------------------------------------
